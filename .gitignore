@@ -1,0 +1,43 @@
+# Virtual Environment
+de_env/
+venv/
+.env
+
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+dist/
+build/
+*.egg
+
+# Jupyter
+.ipynb_checkpoints/
+
+# Data files (usually too large for git)
+*.csv
+*.parquet
+*.json
+*.xlsx
+
+# dbt
+target/
+dbt_packages/
+logs/
+
+# Airflow
+airflow.db
+airflow-webserver.pid
+
+# IDE
+.vscode/
+.idea/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Secrets
+*.env
+secrets.yaml
+credentials.json
