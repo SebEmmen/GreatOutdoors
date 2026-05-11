@@ -5,6 +5,7 @@ DROP TABLE IF EXISTS Sites;
 DROP TABLE IF EXISTS Customer;
 DROP TABLE IF EXISTS Customer_Headquarters;
 DROP TABLE IF EXISTS Sales;
+DROP TABLE IF EXISTS Staff;
 
 -- 1. Parent table for the entire hierarchy
 CREATE TABLE Customer_Headquarters (
@@ -101,3 +102,22 @@ CREATE TABLE Sales (
 );
 
 -- 7. Sales Staff
+CREATE TABLE Staff (
+	staff_skey INTEGER PRIMARY KEY AUTOINCREMENT,
+	staff_code INT,
+	first_name VARCHAR(45),
+	last_name VARCHAR(45),
+	position_en VARCHAR(100),
+	work_phone TEXT,
+	extension TEXT,
+	fax TEXT,
+	email TEXT,
+	date_hired DATE,
+	is_current INT,
+    	valid_from DATE,
+    	valid_to DATE,
+	sales_code INT,
+	manager_code INT,
+	FOREIGN KEY(sales_code) REFERENCES Sales(sale_code)
+
+);
