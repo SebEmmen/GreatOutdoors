@@ -1,8 +1,8 @@
 CREATE TABLE Customer_Headquarters(
-	customer_headquarters_code INT,
+	customer_codemr INT,
 	customer_name VARCHAR(100),
-	street VARCHAR(100),
-	addition VARCHAR(45),
+	address1 VARCHAR(100),
+	address2 VARCHAR(45),
 	city VARCHAR(45),
 	region VARCHAR(45),
 	postal_zone TEXT,
