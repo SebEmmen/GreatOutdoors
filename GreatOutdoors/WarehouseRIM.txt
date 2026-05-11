@@ -1,38 +1,84 @@
-CREATE TABLE Customer_Headquarters(
-	customer_codemr INT,
-	customer_name VARCHAR(100),
-	address1 VARCHAR(100),
-	address2 VARCHAR(45),
-	city VARCHAR(45),
-	region VARCHAR(45),
-	postal_zone TEXT,
-	country_code INT,
-	phone TEXT,
-	fax TEXT,
-	segment_code INT,
-	language CHAR(3),
-	segment_name VARCHAR(45),
-	segment_desciption VARCHAR(100),
-	PRIMARY KEY(customer_headquarters_code)
-	
+-- Cleanup: Drop existing tables if they exist to start fresh
+DROP TABLE IF EXISTS Sales_Demographic;
+DROP TABLE IF EXISTS Customer_Contact;
+DROP TABLE IF EXISTS Site;
+DROP TABLE IF EXISTS Customer;
+DROP TABLE IF EXISTS Customer_Headquarters;
+
+-- 1. Parent table for the entire hierarchy
+CREATE TABLE Customer_Headquarters (
+    customer_headquarters_code INT,
+    customer_codemr INT,
+    customer_name VARCHAR(100),
+    address1 VARCHAR(100),
+    address2 VARCHAR(45),
+    city VARCHAR(45),
+    region VARCHAR(45),
+    postal_zone TEXT,
+    country_code INT,
+    phone TEXT,
+    fax TEXT,
+    segment_code INT,
+    language CHAR(3),
+    segment_name VARCHAR(45),
+    segment_description VARCHAR(100),
+    PRIMARY KEY (customer_headquarters_code)
 );
 
-CREATE TABLE Sales_Demographic(
-	demographic_code INT,
-	customer_headquarters_code INT,
-	percent INT,
-	upper_age INT,
-	lower_age INT,
-	PRIMARY KEY(demographic_code)
-	FOREIGN KEY(customer_headquarters_code) REFERENCES Customer_Headquarters(customer_headquarters_code)
+-- 2. Customer table (linked to Headquarters)
+CREATE TABLE Customer (
+    customer_code INT,
+    customer_headquarters_code INT,
+    company_name VARCHAR(45),
+    customer_type_en VARCHAR(45),
+    PRIMARY KEY (customer_code),
+    FOREIGN KEY (customer_headquarters_code) REFERENCES Customer_Headquarters(customer_headquarters_code)
 );
 
-CREATE TABLE Customer(
-	customer_code INT,
-	customer_headquarters_code INT,
-	company_name VARCHAR(45),
-	customer_type_en VARCHAR(45),
-	PRIMARY KEY(customer_code)
-	FOREIGN KEY(customer_headquarters_code) REFERENCES Customer_Headquarters(customer_headquarters_code)
+-- 3. Store locations for specific Customers
+CREATE TABLE Site (
+    site_skey INTEGER PRIMARY KEY AUTOINCREMENT,
+    site_code INT,
+    customer_code INT,
+    street VARCHAR(100),
+    addition TEXT,
+    city VARCHAR(45),
+    state VARCHAR(45),
+    postal_zone TEXT,
+    country_code INT,
+    active_indicator INT,
+    country VARCHAR(45),
+    flag_image TEXT,
+    currency_name VARCHAR(45),
+    territory_name_en VARCHAR(45),
+    is_current INT,
+    valid_from DATE,
+    valid_to DATE,
+    FOREIGN KEY (customer_code) REFERENCES Customer(customer_code)
+);
 
+-- 4. Contact persons for specific Stores
+CREATE TABLE Customer_Contact (
+    customer_contact_code INT,
+    customer_site_code INT,
+    first_name VARCHAR(45),
+    last_name VARCHAR(45),
+    job_position_en VARCHAR(100),
+    extension TEXT,
+    fax TEXT,
+    e_mail TEXT,
+    gender CHAR(1),
+    PRIMARY KEY (customer_contact_code),
+    FOREIGN KEY (customer_site_code) REFERENCES Customer_Store(customer_site_code)
+);
+
+-- 5. Demographic data for Headquarters
+CREATE TABLE Sales_Demographic (
+    demographic_code INT,
+    customer_codemr INT,
+    sales_percent INT,
+    upper_age INT,
+    lower_age INT,
+    PRIMARY KEY (demographic_code),
+    FOREIGN KEY (customer_codemr) REFERENCES Customer_Headquarters(customer_headquarters_code)
 );
