@@ -1,0 +1,38 @@
+CREATE TABLE Customer_Headquarters(
+	customer_headquarters_code INT,
+	customer_name VARCHAR(100),
+	street VARCHAR(100),
+	addition VARCHAR(45),
+	city VARCHAR(45),
+	region VARCHAR(45),
+	postal_zone TEXT,
+	country_code INT,
+	phone TEXT,
+	fax TEXT,
+	segment_code INT,
+	language CHAR(3),
+	segment_name VARCHAR(45),
+	segment_desciption VARCHAR(100),
+	PRIMARY KEY(customer_headquarters_code)
+	
+);
+
+CREATE TABLE Sales_Demographic(
+	demographic_code INT,
+	customer_headquarters_code INT,
+	percent INT,
+	upper_age INT,
+	lower_age INT,
+	PRIMARY KEY(demographic_code)
+	FOREIGN KEY(customer_headquarters_code) REFERENCES Customer_Headquarters(customer_headquarters_code)
+);
+
+CREATE TABLE Customer(
+	customer_code INT,
+	customer_headquarters_code INT,
+	company_name VARCHAR(45),
+	customer_type_en VARCHAR(45),
+	PRIMARY KEY(customer_code)
+	FOREIGN KEY(customer_headquarters_code) REFERENCES Customer_Headquarters(customer_headquarters_code)
+
+);
