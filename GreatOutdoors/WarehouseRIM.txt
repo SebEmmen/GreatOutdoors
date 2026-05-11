@@ -1,13 +1,13 @@
 -- Cleanup: Drop existing tables if they exist to start fresh
 DROP TABLE IF EXISTS Sales_Demographic;
 DROP TABLE IF EXISTS Customer_Contact;
-DROP TABLE IF EXISTS Site;
+DROP TABLE IF EXISTS Sites;
 DROP TABLE IF EXISTS Customer;
 DROP TABLE IF EXISTS Customer_Headquarters;
+DROP TABLE IF EXISTS Sales;
 
 -- 1. Parent table for the entire hierarchy
 CREATE TABLE Customer_Headquarters (
-    customer_headquarters_code INT,
     customer_codemr INT,
     customer_name VARCHAR(100),
     address1 VARCHAR(100),
@@ -22,21 +22,21 @@ CREATE TABLE Customer_Headquarters (
     language CHAR(3),
     segment_name VARCHAR(45),
     segment_description VARCHAR(100),
-    PRIMARY KEY (customer_headquarters_code)
+    PRIMARY KEY (customer_codemr)
 );
 
 -- 2. Customer table (linked to Headquarters)
 CREATE TABLE Customer (
     customer_code INT,
-    customer_headquarters_code INT,
+    customer_codemr INT,
     company_name VARCHAR(45),
     customer_type_en VARCHAR(45),
     PRIMARY KEY (customer_code),
-    FOREIGN KEY (customer_headquarters_code) REFERENCES Customer_Headquarters(customer_headquarters_code)
+    FOREIGN KEY (customer_codemr) REFERENCES Customer_Headquarters(customer_headquarters_code)
 );
 
 -- 3. Store locations for specific Customers
-CREATE TABLE Site (
+CREATE TABLE Sites (
     site_skey INTEGER PRIMARY KEY AUTOINCREMENT,
     site_code INT,
     customer_code INT,
@@ -82,3 +82,22 @@ CREATE TABLE Sales_Demographic (
     PRIMARY KEY (demographic_code),
     FOREIGN KEY (customer_codemr) REFERENCES Customer_Headquarters(customer_headquarters_code)
 );
+
+-- 6. Sales Branch data
+CREATE TABLE Sales (
+	sale_skey INTEGER PRIMARY KEY AUTOINCREMENT,
+	sale_code INT,
+	street VARCHAR(100),
+	addition TEXT,
+	city VARCHAR(45),
+	state VARCHAR(45),
+	postal_zone TEXT,
+	country_code VARCHAR(45),
+	country VARCHAR(45),
+	currency_name VARCHAR(45),
+	is_current INT,
+    	valid_from DATE,
+    	valid_to DATE
+);
+
+-- 7. Sales Staff
