@@ -1,11 +1,15 @@
--- Cleanup: Drop existing tables if they exist to start fresh
-DROP TABLE IF EXISTS Sales_Demographic;
-DROP TABLE IF EXISTS Customer_Contact;
-DROP TABLE IF EXISTS Sites;
-DROP TABLE IF EXISTS Customer;
-DROP TABLE IF EXISTS Customer_Headquarters;
+DROP TABLE IF EXISTS Training;
+DROP TABLE IF EXISTS Returned_Item;      -- References Orders
+DROP TABLE IF EXISTS Orders;             -- References Product, Sites, Sales, Staff
+DROP TABLE IF EXISTS Customer_Contact;   -- References Sites
+DROP TABLE IF EXISTS Sales_Demographic;  -- References Customer_Headquarters
+DROP TABLE IF EXISTS Staff;              -- References Sales
+DROP TABLE IF EXISTS Product;
+DROP TABLE IF EXISTS Sites;              -- References Customer
+DROP TABLE IF EXISTS Customer;           -- References Customer_Headquarters
 DROP TABLE IF EXISTS Sales;
-DROP TABLE IF EXISTS Staff;
+DROP TABLE IF EXISTS Customer_Headquarters;
+
 
 -- 1. Parent table for the entire hierarchy
 CREATE TABLE Customer_Headquarters (
@@ -119,5 +123,62 @@ CREATE TABLE Staff (
 	sales_code INT,
 	manager_code INT,
 	FOREIGN KEY(sales_code) REFERENCES Sales(sale_code)
+);
 
+-- 8. Product
+CREATE TABLE Product(
+	product_number INT,
+	introduction_date DATE,
+	product_image TEXT,
+	product_name VARCHAR(45),
+	description VARCHAR(100),
+	product_type_en VARCHAR(45),
+	product_line_en VARCHAR(45),
+	PRIMARY KEY(product_number)
+
+);
+
+-- 9. Orders
+CREATE TABLE Orders(
+	order_code INT,
+	order_number INT,
+	product_number INT,
+	total_revenue FLOAT,
+	total_cost FLOAT,
+	gross_profit FLOAT,
+	profit_margin FLOAT,
+	retailer_name VARCHAR(45),
+	site_code INT,
+	retailer_contact_code INT,
+	staff_code INT,
+	sales_code INT,
+	order_date DATE,
+	order_method_en VARCHAR(45),
+	PRIMARY KEY(order_code),
+	FOREIGN KEY(product_number) REFERENCES Product(product_number),
+	FOREIGN KEY(site_code) REFERENCES Sites(site_skey),
+	FOREIGN KEY(sales_code) REFERENCES Sales(sale_skey),
+	FOREIGN KEY(staff_code) REFERENCES Staff(staff_skey)	
+);
+
+-- 10. Returned_Item
+CREATE TABLE Returned_Item(
+	return_code INT,
+	return_date DATE,
+	order_code INT,
+	return_quantity INT,
+	return_description_en VARCHAR(100),
+	PRIMARY KEY(return_code),
+	FOREIGN KEY(order_code) REFERENCES Orders(order_code)
+);
+
+-- 11. Table for tracking staff training records as seen in image_d3dbb9.png
+CREATE TABLE Training (
+    year INT NOT NULL,
+    staff_code INT NOT NULL,
+    course_description VARCHAR(255) NOT NULL,
+    
+    -- Composite Primary Key to ensure uniqueness across the three identifying columns
+    PRIMARY KEY (year, staff_code, course_description),
+	FOREIGN KEY(staff_code) REFERENCES Staff(staff_skey)
 );
