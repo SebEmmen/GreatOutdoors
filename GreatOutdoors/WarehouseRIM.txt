@@ -1,3 +1,7 @@
+DROP TABLE IF EXISTS Sales_Target;
+DROP TABLE IF EXISTS Product_Forecast;
+DROP TABLE IF EXISTS Inventory_Levels;
+DROP TABLE IF EXISTS Satisfaction;
 DROP TABLE IF EXISTS Training;
 DROP TABLE IF EXISTS Returned_Item;      -- References Orders
 DROP TABLE IF EXISTS Orders;             -- References Product, Sites, Sales, Staff
@@ -172,13 +176,55 @@ CREATE TABLE Returned_Item(
 	FOREIGN KEY(order_code) REFERENCES Orders(order_code)
 );
 
--- 11. Table for tracking staff training records as seen in image_d3dbb9.png
+-- 11. Training
 CREATE TABLE Training (
     year INT NOT NULL,
     staff_code INT NOT NULL,
-    course_description VARCHAR(255) NOT NULL,
+    course_description VARCHAR(255),
     
     -- Composite Primary Key to ensure uniqueness across the three identifying columns
-    PRIMARY KEY (year, staff_code, course_description),
-	FOREIGN KEY(staff_code) REFERENCES Staff(staff_skey)
+    PRIMARY KEY (year, staff_code),
+    FOREIGN KEY(staff_code) REFERENCES Staff(staff_skey)
+);
+
+-- 12. Satisfaction
+CREATE TABLE Satisfaction(
+	year INT NOT NULL,
+	staff_code INT NOT NULL,
+	satisfaction_type_description VARCHAR(100),
+
+	PRIMARY KEY (year, staff_code),
+        FOREIGN KEY(staff_code) REFERENCES Staff(staff_skey)
+);
+
+CREATE TABLE Inventory_Levels (
+    year INT,
+    month INT,
+    product_number INT,
+    inventory_count INT,
+
+    PRIMARY KEY (year, month, product_number),
+    FOREIGN KEY(product_number) REFERENCES Product(product_number)
+);
+
+CREATE TABLE Product_Forecast (
+	year INT,
+	month INT,
+	product_number INT,
+	expected_volume INT,
+	PRIMARY KEY (product_number, year, month),
+	FOREIGN KEY(product_number) REFERENCES Product(product_number)
+);
+
+CREATE TABLE Sales_Target (
+	year INT,
+	month INT,
+	product_number INT,
+	retailer_name VARCHAR(45),
+	staff_code INT,
+	sales_target INT,
+	retailer_code INT,
+	PRIMARY KEY(year, product_number, month),
+	FOREIGN KEY(product_number) REFERENCES Product(product_number),
+	FOREIGN KEY(staff_code) REFERENCES Staff(staff_skey)	
 );
