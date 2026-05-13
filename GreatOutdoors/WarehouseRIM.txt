@@ -39,7 +39,7 @@ CREATE TABLE Customer (
     customer_code INT,
     customer_codemr INT,
     company_name VARCHAR(45),
-    customer_type_en VARCHAR(45),
+    customer_type VARCHAR(45),
     PRIMARY KEY (customer_code),
     FOREIGN KEY (customer_codemr) REFERENCES Customer_Headquarters(customer_headquarters_code)
 );
@@ -59,7 +59,7 @@ CREATE TABLE Sites (
     country VARCHAR(45),
     flag_image TEXT,
     currency_name VARCHAR(45),
-    territory_name_en VARCHAR(45),
+    territory_name VARCHAR(45),
     is_current INT,
     valid_from DATE,
     valid_to DATE,
@@ -69,16 +69,16 @@ CREATE TABLE Sites (
 -- 4. Contact persons for specific Stores
 CREATE TABLE Customer_Contact (
     customer_contact_code INT,
-    customer_site_code INT,
+    site_code INT,
     first_name VARCHAR(45),
     last_name VARCHAR(45),
-    job_position_en VARCHAR(100),
+    job_position VARCHAR(100),
     extension TEXT,
     fax TEXT,
     e_mail TEXT,
     gender CHAR(1),
     PRIMARY KEY (customer_contact_code),
-    FOREIGN KEY (customer_site_code) REFERENCES Customer_Store(customer_site_code)
+    FOREIGN KEY (site_code) REFERENCES Customer_Store(site_skey)
 );
 
 -- 5. Demographic data for Headquarters
@@ -101,7 +101,6 @@ CREATE TABLE Sales (
 	city VARCHAR(45),
 	state VARCHAR(45),
 	postal_zone TEXT,
-	country_code VARCHAR(45),
 	country VARCHAR(45),
 	currency_name VARCHAR(45),
 	is_current INT,
@@ -115,7 +114,7 @@ CREATE TABLE Staff (
 	staff_code INT,
 	first_name VARCHAR(45),
 	last_name VARCHAR(45),
-	position_en VARCHAR(100),
+	position VARCHAR(100),
 	work_phone TEXT,
 	extension TEXT,
 	fax TEXT,
@@ -136,8 +135,8 @@ CREATE TABLE Product(
 	product_image TEXT,
 	product_name VARCHAR(45),
 	description VARCHAR(100),
-	product_type_en VARCHAR(45),
-	product_line_en VARCHAR(45),
+	product_type VARCHAR(45),
+	product_line VARCHAR(45),
 	PRIMARY KEY(product_number)
 
 );
@@ -157,7 +156,7 @@ CREATE TABLE Orders(
 	staff_code INT,
 	sales_code INT,
 	order_date DATE,
-	order_method_en VARCHAR(45),
+	order_method VARCHAR(45),
 	PRIMARY KEY(order_code),
 	FOREIGN KEY(product_number) REFERENCES Product(product_number),
 	FOREIGN KEY(site_code) REFERENCES Sites(site_skey),
@@ -171,7 +170,7 @@ CREATE TABLE Returned_Item(
 	return_date DATE,
 	order_code INT,
 	return_quantity INT,
-	return_description_en VARCHAR(100),
+	return_description VARCHAR(100),
 	PRIMARY KEY(return_code),
 	FOREIGN KEY(order_code) REFERENCES Orders(order_code)
 );
@@ -226,5 +225,6 @@ CREATE TABLE Sales_Target (
 	retailer_code INT,
 	PRIMARY KEY(year, product_number, month),
 	FOREIGN KEY(product_number) REFERENCES Product(product_number),
-	FOREIGN KEY(staff_code) REFERENCES Staff(staff_skey)	
+	FOREIGN KEY(staff_code) REFERENCES Staff(staff_skey),
+	FOREIGN KEY(retailer_code) REFERENCES Site(customer_code)	
 );
