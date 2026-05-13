@@ -1,6 +1,4 @@
-DROP TABLE IF EXISTS Sales_Target;
-DROP TABLE IF EXISTS Product_Forecast;
-DROP TABLE IF EXISTS Inventory_Levels;
+DROP TABLE IF EXISTS Inventory_Forecast_Target;
 DROP TABLE IF EXISTS Satisfaction;
 DROP TABLE IF EXISTS Training;
 DROP TABLE IF EXISTS Returned_Item;      -- References Orders
@@ -41,7 +39,7 @@ CREATE TABLE Customer (
     company_name VARCHAR(45),
     customer_type VARCHAR(45),
     PRIMARY KEY (customer_code),
-    FOREIGN KEY (customer_codemr) REFERENCES Customer_Headquarters(customer_headquarters_code)
+    FOREIGN KEY (customer_codemr) REFERENCES Customer_Headquarters(customer_codemr)
 );
 
 -- 3. Store locations for specific Customers
@@ -89,7 +87,7 @@ CREATE TABLE Sales_Demographic (
     upper_age INT,
     lower_age INT,
     PRIMARY KEY (demographic_code),
-    FOREIGN KEY (customer_codemr) REFERENCES Customer_Headquarters(customer_headquarters_code)
+    FOREIGN KEY (customer_codemr) REFERENCES Customer_Headquarters(customer_codemr)
 );
 
 -- 6. Sales Branch data
@@ -196,32 +194,15 @@ CREATE TABLE Satisfaction(
         FOREIGN KEY(staff_code) REFERENCES Staff(staff_skey)
 );
 
-CREATE TABLE Inventory_Levels (
-    year INT,
-    month INT,
-    product_number INT,
-    inventory_count INT,
-
-    PRIMARY KEY (year, month, product_number),
-    FOREIGN KEY(product_number) REFERENCES Product(product_number)
-);
-
-CREATE TABLE Product_Forecast (
-	year INT,
-	month INT,
-	product_number INT,
-	expected_volume INT,
-	PRIMARY KEY (product_number, year, month),
-	FOREIGN KEY(product_number) REFERENCES Product(product_number)
-);
-
-CREATE TABLE Sales_Target (
+CREATE TABLE Inventory_Forecast_Target (
 	year INT,
 	month INT,
 	product_number INT,
 	retailer_name VARCHAR(45),
 	staff_code INT,
 	sales_target INT,
+	inventory_count INT,
+	expected_volume INT,
 	retailer_code INT,
 	PRIMARY KEY(year, product_number, month),
 	FOREIGN KEY(product_number) REFERENCES Product(product_number),
