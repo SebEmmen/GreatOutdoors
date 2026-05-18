@@ -1,43 +1,42 @@
-# Virtual Environment
-de_env/
-venv/
-.env
-
-# Python
+# Python bytecode/cache
 __pycache__/
 *.py[cod]
-*.egg-info/
-dist/
+*$py.class
+
+# Virtual environments
+env/
+.venv/
+venv/
+
+# Distribution / packaging
 build/
-*.egg
+dist/
+*.egg-info/
+.eggs/
+
+# Test / coverage
+.pytest_cache/
+.coverage
+.coverage.*
+htmlcov/
+
+# Type checkers / linters
+.mypy_cache/
+.ruff_cache/
+.pyre/
 
 # Jupyter
 .ipynb_checkpoints/
 
-# Data files (usually too large for git)
-*.csv
-*.parquet
-*.json
-*.xlsx
-
-# dbt
-target/
-dbt_packages/
-logs/
-
-# Airflow
-airflow.db
-airflow-webserver.pid
-
-# IDE
+# IDE / OS
 .vscode/
 .idea/
-
-# OS
 .DS_Store
 Thumbs.db
-
-# Secrets
-*.env
-secrets.yaml
-credentials.json
+.test
+/ignore
+/personal
+*.vpp.bak*
+*.vpp.lck*
+*.tmp
+~$Opdrachtbeschrijving.docx
