@@ -76,7 +76,7 @@ CREATE TABLE Customer_Contact (
     e_mail TEXT,
     gender CHAR(1),
     PRIMARY KEY (customer_contact_code),
-    FOREIGN KEY (site_code) REFERENCES Customer_Store(site_code)
+    FOREIGN KEY (site_code) REFERENCES Customer_Store(site_skey)
 );
 
 -- 5. Demographic data for Headquarters
@@ -123,7 +123,7 @@ CREATE TABLE Staff (
     	valid_to DATE,
 	sales_code INT,
 	manager_code INT,
-	FOREIGN KEY(sales_code) REFERENCES Sales(sale_code)
+	FOREIGN KEY(sales_code) REFERENCES Sales(sale_skey)
 );
 
 -- 8. Product
@@ -157,9 +157,9 @@ CREATE TABLE Orders(
 	order_method VARCHAR(45),
 	PRIMARY KEY(order_code),
 	FOREIGN KEY(product_number) REFERENCES Product(product_number),
-	FOREIGN KEY(site_code) REFERENCES Sites(site_code),
-	FOREIGN KEY(sales_code) REFERENCES Sales(sale_code),
-	FOREIGN KEY(staff_code) REFERENCES Staff(staff_code)	
+	FOREIGN KEY(site_code) REFERENCES Sites(site_skey),
+	FOREIGN KEY(sales_code) REFERENCES Sales(sale_skey),
+	FOREIGN KEY(staff_code) REFERENCES Staff(staff_skey)	
 );
 
 -- 10. Returned_Item
@@ -181,7 +181,7 @@ CREATE TABLE Training (
     
     -- Composite Primary Key to ensure uniqueness across the three identifying columns
     PRIMARY KEY (year, staff_code),
-    FOREIGN KEY(staff_code) REFERENCES Staff(staff_code)
+    FOREIGN KEY(staff_code) REFERENCES Staff(staff_skey)
 );
 
 -- 12. Satisfaction
@@ -191,7 +191,7 @@ CREATE TABLE Satisfaction(
 	satisfaction_type_description VARCHAR(100),
 
 	PRIMARY KEY (year, staff_code),
-        FOREIGN KEY(staff_code) REFERENCES Staff(staff_code)
+        FOREIGN KEY(staff_code) REFERENCES Staff(staff_skey)
 );
 
 CREATE TABLE Inventory_Forecast_Target (
@@ -206,6 +206,6 @@ CREATE TABLE Inventory_Forecast_Target (
 	retailer_code INT,
 	PRIMARY KEY(year, product_number, month),
 	FOREIGN KEY(product_number) REFERENCES Product(product_number),
-	FOREIGN KEY(staff_code) REFERENCES Staff(staff_code),
+	FOREIGN KEY(staff_code) REFERENCES Staff(staff_skey),
 	FOREIGN KEY(retailer_code) REFERENCES Site(customer_code)	
 );
