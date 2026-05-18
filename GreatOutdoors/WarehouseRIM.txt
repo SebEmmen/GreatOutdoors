@@ -117,7 +117,7 @@ CREATE TABLE Staff (
 	extension TEXT,
 	fax TEXT,
 	email TEXT,
-	date_hired DATETIME,
+	date_hired DATE,
 	is_current INT,
     	valid_from DATE,
     	valid_to DATE,
@@ -129,7 +129,7 @@ CREATE TABLE Staff (
 -- 8. Product
 CREATE TABLE Product(
 	product_number INT,
-	introduction_date DATETIME,
+	introduction_date DATE,
 	product_image TEXT,
 	product_name VARCHAR(45),
 	description VARCHAR(100),
