@@ -144,6 +144,7 @@ CREATE TABLE Orders(
 	order_code INT,
 	order_number INT,
 	product_number INT,
+	quantity INT,
 	total_revenue FLOAT,
 	total_cost FLOAT,
 	gross_profit FLOAT,
