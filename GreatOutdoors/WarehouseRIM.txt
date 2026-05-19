@@ -144,6 +144,7 @@ CREATE TABLE Orders(
 	order_code INT,
 	order_number INT,
 	product_number INT,
+	quantity INT,
 	total_revenue FLOAT,
 	total_cost FLOAT,
 	gross_profit FLOAT,
@@ -153,7 +154,7 @@ CREATE TABLE Orders(
 	retailer_contact_code INT,
 	staff_code INT,
 	sales_code INT,
-	order_date DATE,
+	order_date DATETIME,
 	order_method VARCHAR(45),
 	PRIMARY KEY(order_code),
 	FOREIGN KEY(product_number) REFERENCES Product(product_number),
@@ -165,7 +166,7 @@ CREATE TABLE Orders(
 -- 10. Returned_Item
 CREATE TABLE Returned_Item(
 	return_code INT,
-	return_date DATE,
+	return_date DATETIME,
 	order_code INT,
 	return_quantity INT,
 	return_description VARCHAR(100),
