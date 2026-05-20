@@ -117,7 +117,7 @@ CREATE TABLE Staff (
 	extension TEXT,
 	fax TEXT,
 	email TEXT,
-	date_hired DATE,
+	date_hired DATETIME,
 	is_current INT,
     	valid_from DATE,
     	valid_to DATE,
@@ -129,7 +129,7 @@ CREATE TABLE Staff (
 -- 8. Product
 CREATE TABLE Product(
 	product_number INT,
-	introduction_date DATE,
+	introduction_date DATETIME,
 	product_image TEXT,
 	product_name VARCHAR(45),
 	description VARCHAR(100),
@@ -154,7 +154,7 @@ CREATE TABLE Orders(
 	retailer_contact_code INT,
 	staff_code INT,
 	sales_code INT,
-	order_date DATE,
+	order_date DATETIME,
 	order_method VARCHAR(45),
 	PRIMARY KEY(order_code),
 	FOREIGN KEY(product_number) REFERENCES Product(product_number),
@@ -166,7 +166,7 @@ CREATE TABLE Orders(
 -- 10. Returned_Item
 CREATE TABLE Returned_Item(
 	return_code INT,
-	return_date DATE,
+	return_date DATETIME,
 	order_code INT,
 	return_quantity INT,
 	return_description VARCHAR(100),
